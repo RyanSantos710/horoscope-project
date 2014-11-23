@@ -1,0 +1,21 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/ryansantos/.nvm/v0.11.14/bin/node',
+1 verbose cli   '/Users/ryansantos/.nvm/v0.11.14/bin/npm',
+1 verbose cli   'install' ]
+2 info using npm@2.0.0
+3 info using node@v0.11.14
+4 error install Couldn't read dependencies
+5 verbose stack Error: ENOENT, open '/Users/ryansantos/horoscope/package.json'
+5 verbose stack     at Error (native)
+6 verbose cwd /Users/ryansantos/horoscope
+7 error Darwin 13.4.0
+8 error argv "/Users/ryansantos/.nvm/v0.11.14/bin/node" "/Users/ryansantos/.nvm/v0.11.14/bin/npm" "install"
+9 error node v0.11.14
+10 error npm  v2.0.0
+11 error path /Users/ryansantos/horoscope/package.json
+12 error code ENOPACKAGEJSON
+13 error errno -2
+14 error package.json ENOENT, open '/Users/ryansantos/horoscope/package.json'
+14 error package.json This is most likely not a problem with npm itself.
+14 error package.json npm can't find a package.json file in your current directory.
+15 verbose exit [ -2, true ]
