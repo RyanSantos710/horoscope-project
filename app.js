@@ -9,12 +9,8 @@ var T = new Twit({
 })
 
 var stream = T.stream('statuses/filter', { track: [process.env.HASHTAG] })
-var client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 
 stream.on('tweet', function (tweet) {
-  console.log(tweet.user.screen_name)
-  console.log(tweet.text)
-  console.log(tweet.entities.hashtags[0].text)
   var zodiacId = tweet.entities.hashtags[0].text;
   var zodiacSign = zodiacId.slice(12);
   console.log(zodiacSign);
@@ -25,19 +21,28 @@ stream.on('tweet', function (tweet) {
   },
   function(err, response, body) {
     console.log(body);
+    if (body.length > 140){
+      var messageOne = body.slice(0,120);
+      var messageTwo = body.slice(120,240);
+      var messageThankYou = body.slice(240,360) + "Thank you for using #FetchMyScope! Send feedback at @FetchMyScope";
+      var delayLastMessage = 2000;
+      var delayFirstMessage = 4000;
 
-   /*
-    Save for now. Ask Samer about cutting due to character length
-    T.post('statuses/update', { status: '@' + tweet.user.screen_name + " " + body }, function(err, data, response) {
-    })
-    */
+      T.post('statuses/update', { status: '@' + tweet.user.screen_name + " " + messageThankYou }, function(err, data, response) {
+      })
 
-    client.messages.create({
-      to: process.env.P_NUMBER,
-      from: process.env.T_NUMBER,
-      body: body,
-    }, function(err, message) {
-      console.log(message.sid);
-    });
+      setTimeout(function(){
+        T.post('statuses/update', { status: '@' + tweet.user.screen_name + " " + messageTwo }, function(err, data, response) {
+        })
+      },delayLastMessage);
+
+      setTimeout(function(){
+        T.post('statuses/update', { status: '@' + tweet.user.screen_name + " " + messageOne }, function(err, data, response) {
+        })
+      },delayFirstMessage);
+    } else {
+      T.post('statuses/update', { status: '@' + tweet.user.screen_name + " " + body }, function(err, data, response) {
+      })
+    }
   });
 })
